@@ -10,7 +10,11 @@ import XCTest
 
 final class LovelyCatTests: XCTestCase {
     
-    let sut = CatAPIManager.stub
+    var sut = CatAPIManager.stub
+    
+    override func setUp() {
+        //sut = CatAPIManager { $0.stub }
+    }
     
     func testGetImages() async throws {
         let images = try await sut.getImages()
@@ -31,3 +35,4 @@ final class LovelyCatTests: XCTestCase {
         }
     }
 }
+

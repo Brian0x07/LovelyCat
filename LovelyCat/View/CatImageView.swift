@@ -9,14 +9,16 @@ import SwiftUI
 
 struct CatImageView: View {
     @State private var phase: AsyncImagePhase
+    @State private var isLoading: Bool = false
+    
     private var session: URLSession = .imageSession
     
     private let catImage: CatImageViewModel
     private let isFavourited: Bool
-    private var onDoubleTap: () -> Void
+    private var onDoubleTap: () async -> Void
     
     
-    init(_ catImage: CatImageViewModel, isFavourited: Bool, session: URLSession = .imageSession, onDoubleTap: @escaping () -> Void) {
+    init(_ catImage: CatImageViewModel, isFavourited: Bool, session: URLSession = .imageSession, onDoubleTap: @escaping () async -> Void) {
         self.session  = session
         self.catImage = catImage
         self.isFavourited = isFavourited
@@ -58,14 +60,33 @@ struct CatImageView: View {
                                 .padding()
                                 .foregroundStyle(.pink)
                         }
-                        //FIXME: 不该等网络结束后才有动画
-                        .onTapGesture(count: 2, perform: onDoubleTap)
+                        .opacity(isLoading ? 0.5 : 1)
+                        .animation(.default, value: isLoading)
+                        .overlay(alignment: .topTrailing) {
+                            if isLoading {
+                                ProgressView()
+                                    .controlSize(.large)
+                                    .padding()
+                            }
+                        }
+                        .onTapGesture(count: 2) {
+                            Task {
+                                isLoading = true
+                                await onDoubleTap()
+                                isLoading = false
+                            }
+                        }
+                        .disabled(isLoading)
                     
                 case .failure:
                     Color(.systemGray6)
                         .overlay {
-                            //TODO: 重试
-                            Text("圖片無法顯示")
+                            VStack {
+                                Text("圖片無法顯示")
+                                Button("重试") {
+                                    phase = .empty
+                                }
+                            }
                         }
                     
                     
@@ -102,6 +123,7 @@ struct CatImageView_Previews: PreviewProvider, View {
     
     var body: some View {
         CatImageView([CatImageViewModel].stub.first!, isFavourited: isFavourited) {
+            try? await Task.sleep(for: .seconds(1))
             isFavourited.toggle()
         }
     }

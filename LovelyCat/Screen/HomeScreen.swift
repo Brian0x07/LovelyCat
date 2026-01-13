@@ -13,6 +13,7 @@ struct HomeScreen: View {
     
     @State private var tab: Tab = .images
     @StateObject private var favoritesVM = FavoritesViewModel()
+    @State private var errorMessage: String?
     
     var body: some View {
         TabView(selection: $tab) {
@@ -24,17 +25,19 @@ struct HomeScreen: View {
                 .tabItem { Label("Favorite", systemImage: "heart.fill") }
                 .tag(Tab.favorites)
         }
-        .task {
-            // FIXME: error handling
-            try! await loadFavorites()
-        }
+        .alert(errorMessage: $errorMessage)
+        .task { await loadFavorites() }
     }
 }
 
 
 private extension HomeScreen {
-    func loadFavorites() async throws {
-        try await favoritesVM.getFavorites()
+    func loadFavorites() async {
+        do {
+            try await favoritesVM.getFavorites()
+        } catch {
+            errorMessage = "载入资料失败"
+        }
     }
 }
 
@@ -49,6 +52,6 @@ private extension HomeScreen {
 struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
         HomeScreen()
-            .environment(\.apiManager, .stub)
+            .environment(\.apiManager, .preview)
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FavoriteScreen: View {
     @ObservedObject var favoritesVM: FavoritesViewModel
+    @State private var errorMessage: String?
     
     var favorites: [FavoriteItem] {
         favoritesVM.favorites
@@ -31,15 +32,17 @@ struct FavoriteScreen: View {
                 
                 ForEach(Array(favorites.enumerated()), id: \.element.imageID) { index, favoriteItem in
                     CatImageView(.init(favoriteItem: favoriteItem), isFavourited: true) {
-                        // TODO:  send update to the server
-                        Task {
-                            // FIXME: error handling & pass async closure??
+                        do {
                             try await favoritesVM.remove(at: index)
+                        } catch {
+                            errorMessage = "无法移除最爱项"
                         }
                     }.transition(.slide)
                 }
             }
-        }.animation(.spring(), value: favorites)
+        }
+        .animation(.spring(), value: favorites)
+        .alert(errorMessage: $errorMessage)
     }
 }
 
@@ -54,5 +57,6 @@ struct FavoriteScreen_Previews: PreviewProvider, View {
     
     static var previews: some View {
         Self()
+            .environment(\.apiManager, .preview)
     }
 }

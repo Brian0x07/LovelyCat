@@ -20,6 +20,11 @@ final class CatAPIManager {
         return CatAPIManager { try await session.data(for: $0.request) }
     }()
     
+    static let preview = CatAPIManager {
+        try? await Task.sleep(for: .seconds(1))
+        return $0.stub
+    }
+    
     static let stub = CatAPIManager { $0.stub }
     
     private init(getData: @escaping (Endpoint) async throws -> Data) {
@@ -44,7 +49,11 @@ extension CatAPIManager {
     }
     
     func removeFromFavorite(id: Int) async throws {
-        _ = try await getData(.removeFromFavorite(id: id))
+        do {
+            _ = try await getData(.removeFromFavorite(id: id))
+        } catch URLSession.APIError.invalidCode(400) {
+            // 不存在的最爱 ID
+        }
     }
 }
 

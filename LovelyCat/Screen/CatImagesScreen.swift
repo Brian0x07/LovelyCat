@@ -17,6 +17,9 @@ struct CatImageScreen: View {
     
     @State private var catImages: [CatImageViewModel] = []
     @State private var didFirstLoad: Bool = false
+    @State private var isLoading: Bool = false
+    @State private var errorMessage: String?
+    
     
     var body: some View {
         VStack {
@@ -24,24 +27,27 @@ struct CatImageScreen: View {
                 Text("可愛貓咪")
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
-                //FIXME: 不该等网络结束后才有动画
                 Button("換一批") { Task { await loadRandomImages() } }
                     .buttonStyle(.bordered)
                     .font(.headline)
+                    .overlay {
+                        if isLoading {
+                            ProgressView()
+                        }
+                    }
+                    .disabled(isLoading)
             }.padding(.horizontal)
             
             ScrollView {
                 ForEach(catImages) { catImage in
                     let isFavourited = favorites.contains(where: \.imageID == catImage.id)
                     CatImageView(catImage, isFavourited: isFavourited) {
-                        Task {
-                            // FIXME: error handling & pass async closure??
-                            try! await toggleFavorite(catImage)
-                        }
+                        await toggleFavorite(catImage)
                     }
                 }
             }
         }
+        .alert(errorMessage: $errorMessage)
         .task {
             if !didFirstLoad {
                 await loadRandomImages()
@@ -53,16 +59,27 @@ struct CatImageScreen: View {
 
 private extension CatImageScreen {
     func loadRandomImages() async {
-        // FIXME: error
-        catImages = (try! await apiManager.getImages()).map (CatImageViewModel.init)
+        do {
+            defer {
+                isLoading = false
+            }
+            isLoading = true
+            catImages = (try await apiManager.getImages()).map (CatImageViewModel.init)
+        } catch {
+            errorMessage = "无法载入图片"
+        }
     }
     
-    func toggleFavorite(_ cat: CatImageViewModel) async throws {
-        guard let index = favorites.firstIndex(where: \.imageID == cat.id)  else {
-            try await favoritesVM.add(cat)
-            return
+    func toggleFavorite(_ cat: CatImageViewModel) async {
+        do {
+            guard let index = favorites.firstIndex(where: \.imageID == cat.id)  else {
+                try await favoritesVM.add(cat)
+                return
+            }
+            try await favoritesVM.remove(at: index)
+        } catch {
+            errorMessage = "无法更新最爱"
         }
-        try await favoritesVM.remove(at: index)
     }
 }
 
@@ -75,6 +92,6 @@ struct CatImageScreen_Previews: PreviewProvider, View {
     
     static var previews: some View {
         Self()
-            .environment(\.apiManager, .stub)
+            .environment(\.apiManager, .preview)
     }
 }
