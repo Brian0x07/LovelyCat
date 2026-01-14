@@ -16,7 +16,6 @@ struct CatImageScreen: View {
     }
     
     @State private var catImages: [CatImageViewModel] = []
-    @State private var didFirstLoad: Bool = false
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
     
@@ -27,7 +26,7 @@ struct CatImageScreen: View {
                 Text("可愛貓咪")
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Button("換一批") { Task { await loadRandomImages() } }
+                Button("换一批", action: loadRandomImages)
                     .buttonStyle(.bordered)
                     .font(.headline)
                     .overlay {
@@ -38,35 +37,40 @@ struct CatImageScreen: View {
                     .disabled(isLoading)
             }.padding(.horizontal)
             
-            ScrollView {
-                ForEach(catImages) { catImage in
-                    let isFavourited = favorites.contains(where: \.imageID == catImage.id)
-                    CatImageView(catImage, isFavourited: isFavourited) {
-                        await toggleFavorite(catImage)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(catImages) { catImage in
+                        let isFavourited = favorites.contains(where: \.imageID == catImage.id)
+                        CatImageView(catImage, isFavourited: isFavourited) {
+                            await toggleFavorite(catImage)
+                        }.id(catImage.id)
+                    }
+                }.onChange(of: catImages.first?.id) { newID in
+                    guard let newID else { return }
+                    withAnimation {
+                        proxy.scrollTo(newID)
                     }
                 }
             }
         }
         .alert(errorMessage: $errorMessage)
-        .task {
-            if !didFirstLoad {
-                await loadRandomImages()
-                didFirstLoad = true
-            }
+        .onAppear {
+            if !catImages.isEmpty && !isLoading { return }
+            loadRandomImages()
         }
     }
 }
 
 private extension CatImageScreen {
-    func loadRandomImages() async {
-        do {
-            defer {
-                isLoading = false
+    func loadRandomImages() {
+        Task {
+            do {
+                isLoading = true
+                catImages = (try await apiManager.getImages()).map (CatImageViewModel.init)
+            } catch {
+                errorMessage = "无法载入图片"
             }
-            isLoading = true
-            catImages = (try await apiManager.getImages()).map (CatImageViewModel.init)
-        } catch {
-            errorMessage = "无法载入图片"
+            isLoading = false
         }
     }
     

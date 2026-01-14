@@ -47,7 +47,7 @@ struct CatImageView: View {
                 case .empty:
                     ProgressView()
                         .controlSize(.large)
-                        .task { await load() }
+                        .onAppear(perform: load)
                     
                 case .success(let image):
                     image
@@ -82,7 +82,7 @@ struct CatImageView: View {
                     Color(.systemGray6)
                         .overlay {
                             VStack {
-                                Text("圖片無法顯示")
+                                Text("图片无法展示")
                                 Button("重试") {
                                     phase = .empty
                                 }
@@ -102,17 +102,19 @@ struct CatImageView: View {
 
 
 private extension CatImageView {
-    func load() async {
-        do {
-            let urlRequest = URLRequest(url: catImage.url)
-            let data = try await session.data(for: urlRequest)
-            guard let uiImage = UIImage(data: data) else {
-                throw URLSession.APIError.invalidData
+    func load() {
+        Task {
+            do {
+                let urlRequest = URLRequest(url: catImage.url)
+                let data = try await session.data(for: urlRequest)
+                guard let uiImage = UIImage(data: data) else {
+                    throw URLSession.APIError.invalidData
+                }
+                
+                phase = .success(.init(uiImage: uiImage))
+            } catch {
+                phase = .failure(error)
             }
-            
-            phase = .success(.init(uiImage: uiImage))
-        } catch {
-            phase = .failure(error)
         }
     }
 }

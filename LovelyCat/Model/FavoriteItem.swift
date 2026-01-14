@@ -18,7 +18,7 @@ final class FavoritesViewModel: ObservableObject {
     }
     
     func getFavorites() async throws {
-        self.favorites = try await apiManager.getFavorites()
+        self.favorites = try await apiManager.getFavorites(page: 0)
     }
     
     func add(_ cat: CatImageViewModel) async throws {

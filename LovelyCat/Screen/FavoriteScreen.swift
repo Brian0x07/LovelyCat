@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FavoriteScreen: View {
+    @Environment(\.apiManager) private var apiManager
     @ObservedObject var favoritesVM: FavoritesViewModel
     @State private var errorMessage: String?
     
@@ -38,6 +39,12 @@ struct FavoriteScreen: View {
                             errorMessage = "无法移除最爱项"
                         }
                     }.transition(.slide)
+                }
+                
+                Button("载入更多") {
+                    Task {
+                        try await apiManager.getFavorites(page: 0, limit: 100)
+                    }
                 }
             }
         }
