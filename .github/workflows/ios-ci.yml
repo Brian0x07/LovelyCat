@@ -24,13 +24,9 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true  # 自动缓存并安装 gems
       
-      # 运行单元测试
-      - name: Run unit tests
-        run: bundle exec fastlane unit_test
-      
-      # 构建应用
-      - name: Build app
-        run: bundle exec fastlane build_dev
+      # CI 构建
+      - name: Run CI 构建
+        run: bundle exec fastlane ci_build_dev
       
       # 列出 builds 文件夹（使用 tree）
       - name: List builds folder contents

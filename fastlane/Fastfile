@@ -42,7 +42,11 @@ platform :ios do
   desc "CI 环境构建（用于 GitHub Actions）"
   lane :ci_build_dev do
     unit_test
-    build_dev
+    build_app(
+      scheme: "LovelyCat",
+      skip_codesigning: true,
+      skip_package_ipa: true
+    )
   end
 
 end
