@@ -5,12 +5,19 @@
 //  Created by Jane Chao on 2023/4/1.
 //
 
+#if DEBUG
+import Atlantis
+#endif
+
 import SwiftUI
 
 @main
 struct NetworkManagerPracticeApp: App {
     init() {
         applyTabBarBackground()
+        #if DEBUG
+        Atlantis.start()
+        #endif
     }
     
     var body: some Scene {

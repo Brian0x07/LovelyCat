@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		ABEBFC1A2F1933AC000C51B1 /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = ABEBFC192F1933AC000C51B1 /* Atlantis */; };
+		ABEBFC1D2F193A69000C51B1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = ABEBFC1C2F193A69000C51B1 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AB05E70B2F14D8430033A3E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -39,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABEBFC1D2F193A69000C51B1 /* Kingfisher in Frameworks */,
+				ABEBFC1A2F1933AC000C51B1 /* Atlantis in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +97,8 @@
 			);
 			name = LovelyCat;
 			packageProductDependencies = (
+				ABEBFC192F1933AC000C51B1 /* Atlantis */,
+				ABEBFC1C2F193A69000C51B1 /* Kingfisher */,
 			);
 			productName = LovelyCat;
 			productReference = AB05E6D22F14CCAC0033A3E2 /* LovelyCat.app */;
@@ -146,6 +155,10 @@
 			);
 			mainGroup = AB05E6C92F14CCAC0033A3E2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ABEBFC182F1933AC000C51B1 /* XCRemoteSwiftPackageReference "atlantis" */,
+				ABEBFC1B2F193A69000C51B1 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AB05E6D32F14CCAC0033A3E2 /* Products */;
 			projectDirPath = "";
@@ -327,8 +340,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 842CT846DQ;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 68ACY738MR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -341,7 +354,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Leo.LovelyCat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Leo.dev.LovelyCat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -355,8 +368,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 842CT846DQ;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 68ACY738MR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -369,7 +382,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Leo.LovelyCat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Leo.dev.LovelyCat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -382,8 +395,8 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 842CT846DQ;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 68ACY738MR;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
@@ -405,8 +418,8 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 842CT846DQ;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 68ACY738MR;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
@@ -454,6 +467,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ABEBFC182F1933AC000C51B1 /* XCRemoteSwiftPackageReference "atlantis" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ProxymanApp/atlantis.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
+		ABEBFC1B2F193A69000C51B1 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ABEBFC192F1933AC000C51B1 /* Atlantis */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABEBFC182F1933AC000C51B1 /* XCRemoteSwiftPackageReference "atlantis" */;
+			productName = Atlantis;
+		};
+		ABEBFC1C2F193A69000C51B1 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABEBFC1B2F193A69000C51B1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AB05E6CA2F14CCAC0033A3E2 /* Project object */;
 }

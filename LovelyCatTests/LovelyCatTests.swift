@@ -28,7 +28,7 @@ final class LovelyCatTests: XCTestCase {
     
     func testGetFavorite() async throws {
         do {
-            let url = try await sut.getFavorites()[0].imageURL
+            let url = try await sut.getFavorites(page: 0)[0].imageURL
             XCTAssertEqual(url, "https://cdn2.thecatapi.com/images/E8dL1Pqpz.jpg")
         } catch {
             XCTFail("😄\(error)")
