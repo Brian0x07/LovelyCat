@@ -1,0 +1,51 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  test-and-build:
+    name: Test and Build
+    runs-on: macos-latest
+    
+    steps:
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # 设置 Ruby 环境
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true  # 自动缓存并安装 gems
+      
+      # 运行单元测试
+      - name: Run unit tests
+        run: bundle exec fastlane unit_test
+      
+      # 构建应用
+      - name: Build app
+        run: bundle exec fastlane build_dev
+      
+      # 列出 builds 文件夹（使用 tree）
+      - name: List builds folder contents
+        run: |
+          echo "📦 Builds folder structure:"
+          if [ -d "builds" ]; then
+            # 安装 tree（如果没有）
+            brew install tree 2>/dev/null || true
+            
+            # 显示目录树
+            tree -h builds/
+            
+            echo ""
+            echo "📊 File sizes:"
+            du -h builds/*
+          else
+            echo "⚠️  builds folder not found"
+          fi
