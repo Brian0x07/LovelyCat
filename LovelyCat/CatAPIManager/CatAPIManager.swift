@@ -92,7 +92,8 @@ extension CatAPIManager {
         var request: URLRequest {
             switch self {
             case .images:
-                return URLRequest(url: "https://api.thecatapi.com/v1/images/search?limit=10")
+                // return URLRequest(url: "https://api.thecatapi.com/v1/images/search?limit=10")
+                return URLRequest(url:"http://123.57.182.75:3000/cat/v1/images/search")
             case .addToFavorite(let bodyData):
                 var urlRequest = URLRequest(url: "https://api.thecatapi.com/v1/favourites")
                 urlRequest.httpMethod = "POST"

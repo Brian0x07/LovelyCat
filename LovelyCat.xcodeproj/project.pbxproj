@@ -26,9 +26,22 @@
 		AB05E7072F14D8430033A3E2 /* LovelyCatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LovelyCatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AB4A65382F2CCA6E001696E9 /* Exceptions for "LovelyCat" folder in "LovelyCat" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AB05E6D12F14CCAC0033A3E2 /* LovelyCat */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AB05E6D42F14CCAC0033A3E2 /* LovelyCat */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AB4A65382F2CCA6E001696E9 /* Exceptions for "LovelyCat" folder in "LovelyCat" target */,
+			);
 			path = LovelyCat;
 			sourceTree = "<group>";
 		};
@@ -344,6 +357,7 @@
 				DEVELOPMENT_TEAM = 68ACY738MR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LovelyCat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -372,6 +386,7 @@
 				DEVELOPMENT_TEAM = 68ACY738MR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LovelyCat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
